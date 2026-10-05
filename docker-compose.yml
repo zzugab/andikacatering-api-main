@@ -1,0 +1,16 @@
+services:
+  backend:
+    image: ssugab/andkctrng-be:1.0
+    container_name: andika-be
+    ports:
+      - "8000:8000"
+    environment:
+      APP_ENV: local
+      APP_DEBUG: "true"
+      APP_URL: http://localhost:8000
+      DB_CONNECTION: pgsql
+      DB_HOST: 127.0.0.1
+      DB_PORT: 5431
+      DB_DATABASE: db-andikasari
+      DB_USERNAME: admin-digitalintidata
+      DB_PASSWORD: "@Digital2026!"

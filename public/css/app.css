@@ -1,0 +1,140 @@
+body {
+    font-family: Arial, sans-serif !important;
+    margin: 20px;
+    font-size: 12px;
+}
+
+.section-title {
+    font-weight: bold;
+    margin: 20px 0 10px;
+}
+
+/* Header Section */
+.header {
+    display: table;
+    width: 100%;
+    border-bottom: 2px solid black;
+}
+
+.header .logo-container,
+.header .title-container {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.header .logo-container img {
+    width: 50px;
+    height: auto;
+}
+
+.header .title-container {
+    text-align: right;
+}
+
+.header .title-container h1,
+.header .title-container h2 {
+    margin: 0;
+}
+
+.header .title-container h1 {
+    font-size: 22px !important;
+}
+
+.header .title-container h2 {
+    font-size: 18px !important;
+    font-weight: normal;
+}
+
+/* General Table */
+.table,
+.menu-table,
+.signature-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.table td,
+.table th,
+.menu-table td,
+.menu-table th {
+    padding: 8px;
+    text-align: left;
+    vertical-align: middle;
+}
+
+.table td:first-child,
+.menu-table td:first-child {
+    width: 20%;
+}
+
+.table td:nth-child(2),
+.menu-table td:nth-child(2),
+.table td:last-child,
+.menu-table td:last-child {
+    width: 30%;
+}
+
+.menu-table th:first-child {
+    text-align: left;
+    padding-left: 10px;
+}
+
+.menu-table th {
+    font-weight: bold;
+    text-align: center;
+}
+
+/* Input Fields */
+.table input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid black;
+    border-radius: 15px;
+    box-sizing: border-box;
+}
+
+/* Notes Area */
+.notes-area {
+    width: 100%;
+    max-width: 98%;
+    height: fit-content;
+    padding: 0px 10px 10px 20px;
+    box-sizing: border-box;
+    margin: 0 auto;
+    overflow-wrap: break-word;
+    border: none;
+}
+
+/* Signature Section */
+.signature-table td {
+    text-align: left;
+    vertical-align: top;
+    width: 50%;
+    padding: 0 10px;
+}
+
+.signature-line {
+    margin-top: 40px;
+    font-style: italic;
+    text-align: left;
+    display: inline-block;
+    width: 100%;
+}
+
+.signature-cell p {
+    font-weight: bold;
+}
+
+.signature-table .left-cell .signature-line {
+    margin-top: 97px;
+}
+
+.signature-table .right-cell .signature-line {
+    margin-top: 70px;
+}
+
+.separator {
+    border-bottom: 2px solid black;
+    margin: 10px 0;
+}
