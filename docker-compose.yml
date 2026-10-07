@@ -1,16 +1,53 @@
 services:
+
   backend:
-    image: ssugab/andkctrng-be:1.0
-    container_name: andika-be
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: andika-backend
+    restart: unless-stopped
+
     ports:
       - "8000:8000"
+
+    env_file:
+      - .env
+
+    depends_on:
+      db:
+        condition: service_healthy
+
+    networks:
+      - andika-network
+
+  db:
+    image: postgres:18
+    container_name: andika-postgres
+    restart: unless-stopped
+
     environment:
-      APP_ENV: local
-      APP_DEBUG: "true"
-      APP_URL: http://localhost:8000
-      DB_CONNECTION: pgsql
-      DB_HOST: 127.0.0.1
-      DB_PORT: 5431
-      DB_DATABASE: db-andikasari
-      DB_USERNAME: admin-digitalintidata
-      DB_PASSWORD: "@Digital2026!"
+      POSTGRES_DB: andikacatering
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+
+    ports:
+      - "5432:5432"
+
+    volumes:
+      - postgres_data:/var/lib/postgresql
+      - ./database/dump-db/dump.sql:/docker-entrypoint-initdb.d/01-dump.sql
+
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d andikacatering"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+    networks:
+      - andika-network
+
+networks:
+  andika-network:
+
+volumes:
+  postgres_data:
