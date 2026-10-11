@@ -1597,6 +1597,56 @@ class OrderController extends Controller
         return $pdf->download('pemesanan-' . $order->order_name . '.pdf');
     }
 
+    public function printByPeriod(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'month' => 'required|integer|between:1,12',
+            'year'  => 'required|integer|between:2000,2100',
+            'type'  => 'nullable|string',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->failed($validator->errors(), 400);
+        }
+
+        $month = (int) $request->month;
+        $year  = (int) $request->year;
+        $type  = $request->type; // isi 'dapur' jika ingin menyembunyikan harga
+
+        $result = $this->orderModel->getAll([
+            'month' => $month,
+            'year'  => $year,
+        ]);
+
+        if (!$result['status']) {
+            return response()->failed($result['error'], 422);
+        }
+
+        $rawOrders = $result['data']->sortBy('event_date')->values();
+
+        if ($rawOrders->isEmpty()) {
+            return response()->failed('Order not found', 404);
+        }
+
+        $orders = $rawOrders->map(function ($order) {
+            return [
+                'order'        => $order,
+                'orderPackage' => $this->orderPackageModel->getAllOrder($order->uuid)['data'] ?? collect(),
+                'packageMenu'  => $this->orderPackageItem->getAllOrder($order->uuid)['data'] ?? collect(),
+                'customMenu'   => $this->orderMenuModel->getAllOrder($order->uuid)['data'] ?? collect(),
+            ];
+        });
+
+        $totalPortion = $rawOrders->sum(fn($o) => (float) $o->portion);
+
+        $pdf = Pdf::loadView(
+            'order-print-monthly-layout',
+            compact('orders', 'month', 'year', 'type', 'totalPortion')
+        )->setPaper('a4', 'portrait');
+
+        return $pdf->download("rekap-order-{$year}-" . str_pad($month, 2, '0', STR_PAD_LEFT) . '.pdf');
+    }
+    
     public function purchasePlanPrint($uuidOrder)
     {
         $order = $this->orderModel->getById($uuidOrder)['data'];

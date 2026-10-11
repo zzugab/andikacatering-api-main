@@ -133,6 +133,7 @@ Route::group(['middleware' => ['auth:sanctum', 'restrictStatus:true']], function
         //Order
         // Route::get('/order', [OrderController::class, 'index']);
         Route::post('/order', [OrderController::class, 'storeWithCustomer']);
+        Route::get('/order/print', [OrderController::class, 'printByPeriod']);
         // Route::get('/order/{uuid}', [OrderController::class, 'show']);
         Route::put('/order/{uuid}', [OrderController::class, 'update']);
         Route::delete('/order/{uuid}', [OrderController::class, 'destroy']);
