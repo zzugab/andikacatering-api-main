@@ -46,8 +46,29 @@ services:
     networks:
       - andika-network
 
+  jenkins:
+    build:
+      context: ./cicd/jenkins
+      dockerfile: Dockerfile
+    container_name: andika-jenkins
+    restart: unless-stopped
+
+    ports:
+      - "8080:8080"
+
+    environment:
+      DISCORD_WEBHOOK_URL: ${DISCORD_WEBHOOK_URL:?Set DISCORD_WEBHOOK_URL in .env}
+
+    volumes:
+      - jenkins_home:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+      
+    networks:
+      - andika-network
+
 networks:
   andika-network:
 
 volumes:
   postgres_data:
+  jenkins_home:

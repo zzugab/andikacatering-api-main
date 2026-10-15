@@ -1,0 +1,78 @@
+
+post {
+    always {
+        script {
+            // Tandai build gagal jika Grype mengembalikan exit code non-zero.
+            if (env.GRYPE_EXIT &&
+                env.GRYPE_EXIT != '0') {
+                currentBuild.result = 'FAILURE'
+            }
+
+            if (fileExists(env.REPORT_FILE)) {
+                archiveArtifacts(
+                    artifacts: env.REPORT_FILE,
+                    allowEmptyArchive: false
+                )
+
+                withCredentials([
+                    string(
+                        credentialsId: 'dc-webhook',
+                        variable: 'DISCORD_WEBHOOK'
+                    )
+                ]) {
+                    sh '''
+                        set +e
+
+                        COUNTS=$(jq -r '
+                          [.matches[]?.vulnerability.severity]
+                          | group_by(.)
+                          | map("\\(.[0]): \\(length)")
+                          | if length == 0
+                            then ["No vulnerabilities found"]
+                            else .
+                            end
+                          | join("\\n")
+                        ' "${REPORT_FILE}")
+
+                        TOTAL=$(jq \
+                          '[.matches[]?] | length' \
+                          "${REPORT_FILE}")
+
+                        MESSAGE="Grype Vulnerability Report
+Project: andikacatering-api
+Build: #${BUILD_NUMBER}
+Image: ${IMAGE_NAME}:${BUILD_NUMBER}
+Result: ${BUILD_RESULT:-UNKNOWN}
+Grype exit code: ${GRYPE_EXIT:-unknown}
+Total findings: ${TOTAL}
+Severity:
+${COUNTS}"
+
+                        jq -n --arg content "$MESSAGE" \
+                          '{content: $content}' \
+                          > discord-payload.json
+
+                        HTTP_CODE=$(curl -sS \
+                          -o discord-response.txt \
+                          -w '%{http_code}' \
+                          -F "payload_json=$(cat discord-payload.json)" \
+                          -F "files[0]=@${REPORT_FILE};type=application/json" \
+                          "${DISCORD_WEBHOOK}")
+
+                        echo "Discord HTTP status: ${HTTP_CODE}"
+
+                        if [ "$HTTP_CODE" -lt 200 ] ||
+                           [ "$HTTP_CODE" -ge 300 ]; then
+                            echo "Discord notification failed."
+                            cat discord-response.txt
+                        fi
+
+                        exit 0
+                    '''
+                }
+            } else {
+                echo 'No Grype report was generated.'
+            }
+        }
+    }
+}
