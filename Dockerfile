@@ -1,4 +1,4 @@
-FROM dunglas/frankenphp:1.5-php8.4-alpine
+FROM dunglas/frankenphp:1.13-php8.5-alpine
 
 RUN install-php-extensions pdo_pgsql pgsql bcmath gd zip pcntl
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer

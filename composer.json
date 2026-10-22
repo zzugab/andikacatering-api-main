@@ -12,10 +12,10 @@
         "barryvdh/laravel-dompdf": "^3.0",
         "guzzlehttp/guzzle": "^7.2",
         "intervention/image": "^3.8",
-        "laravel/framework": "^10.10",
+        "laravel/framework": "^13.30",
         "laravel/octane": "^2.2",
-        "laravel/sanctum": "^3.3",
-        "laravel/tinker": "^2.8",
+        "laravel/sanctum": "^4.0",
+        "laravel/tinker": "^3.0",
         "phpmailer/phpmailer": "^6.8",
         "ramsey/uuid": "^4.7"
     },
@@ -24,8 +24,8 @@
         "laravel/pint": "^1.0",
         "laravel/sail": "^1.18",
         "mockery/mockery": "^1.4.4",
-        "nunomaduro/collision": "^7.0",
-        "phpunit/phpunit": "^10.1",
+        "nunomaduro/collision": "^8.6",
+        "phpunit/phpunit": "^12.0",
         "spatie/laravel-ignition": "^2.0"
     },
     "autoload": {
