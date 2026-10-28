@@ -1,0 +1,9 @@
+# Profil awal, bukan hasil benchmark VM. Konteks total juga memuat output.
+# Nama FROM harus cocok dengan ollama list; ubah bila memakai model custom.
+FROM deepseek-r1:14b
+PARAMETER num_ctx 4096
+PARAMETER num_predict 1536
+PARAMETER temperature 0.6
+PARAMETER top_p 0.95
+# Instruksi maintenance dikirim sebagai user prompt, sesuai panduan R1.
+# Tidak menimpa TEMPLATE atau stop token milik model dasar.

@@ -1,0 +1,166 @@
+# Inventaris deklarasi route
+
+Generated statis oleh tools/knowledge.py refresh. Deklarasi source, bukan bukti runtime/schema hidup.
+
+Baca grup middleware dan kurung penutup di source asli. Closure/group di bawah adalah penunjuk; bukan effective route:list.
+
+## api
+
+Source: `routes/api.php`; SHA256 `8ec9be868b17`.
+
+- L25 `Route::post('/testimonial/customer/{uuid}', [UserController::class, 'updateTestimonialCustomer']);`
+- L26 `Route::get('/landingPage', [PackageController::class, 'landingPage']);`
+- L28 `Route::controller(AuthController::class)->group(`
+- L29 `Route::post('/register', 'register');`
+- L30 `Route::post('/login', 'login');`
+- L31 `Route::post('/forgotpassword/{token}', 'Forgotpassword');`
+- L32 `Route::post('/sendForgotpassword', 'sendForgotpassword');`
+- L34 `Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');`
+- L36 `Route::middleware('auth:sanctum')->get('/user',`
+- L40 `Route::group(['middleware' => ['auth:sanctum', 'restrictStatus:true']],`
+- L41 `Route::get('/user', [UserController::class, 'indexProfile']);`
+- L42 `Route::put('/user', [UserController::class, 'updateProfile']);`
+- L43 `Route::put('/user/password', [UserController::class, 'updatePassword']);`
+- L45 `Route::middleware(['restrictRole:Superadmin'])->group(`
+- L46 `Route::controller(UserController::class)->group(`
+- L47 `Route::get('/employee', 'indexUser');`
+- L48 `Route::post('/employee', 'storeUser');`
+- L49 `Route::get('/employee/{uuid}', 'showUser');`
+- L50 `Route::put('/employee/{uuid}', 'updateUser');`
+- L51 `Route::put('/employee/{uuid}/password', 'updatePasswordByAdmin');`
+- L52 `Route::put('/employee/{uuid}/role', 'updateUserRole');`
+- L53 `Route::put('/employee/{uuid}/reactivate', 'reactiveUser');`
+- L54 `Route::put('/employee/{uuid}/suspend', 'suspendUser');`
+- L56 `Route::get('/role', 'indexRole');`
+- L57 `Route::get('/role/{uuid}', 'showRole');`
+- L59 `Route::get('/activity', 'indexActivities');`
+- L60 `Route::get('/activity/{uuid}', 'showActivity');`
+- L62 `Route::get('/dashboard', [UserController::class, 'dashboardSuperAdmin']);`
+- L64 `Route::get('/financialRecordSA', [FinanceController::class, 'indexFinancialRecordSA']);`
+- L65 `Route::get('/financialRecordSA/{uuidOrder}', [FinanceController::class, 'showRecordSA']);`
+- L68 `Route::middleware(['restrictRole:Admin'])->group(`
+- L69 `Route::get('/dashboardAdmin', [UserController::class, 'dashboardAdmin']);`
+- L71 `Route::middleware(['restrictRole:Akuntan'])->group(`
+- L72 `Route::get('/dashboardFinance', [UserController::class, 'dashboardFinance']);`
+- L75 `Route::middleware(['restrictRole:Superadmin,Admin,Akuntan'])->group(`
+- L77 `Route::get('/menu/category', [MenuController::class, 'indexCategory']);`
+- L78 `Route::post('/menu/category', [MenuController::class, 'storeCategory']);`
+- L79 `Route::get('/menu/category/{uuid}', [MenuController::class, 'showCategory']);`
+- L80 `Route::put('/menu/category/{uuid}', [MenuController::class, 'updateCategory']);`
+- L81 `Route::delete('/menu/category/{uuid}', [MenuController::class, 'destroyCategory']);`
+- L84 `Route::get('/menu/recipe/{uuidMenu}', [MenuController::class, 'indexRecipes']);`
+- L85 `Route::post('/menu/recipe/{uuidMenu}', [MenuController::class, 'updateRecipes']);`
+- L86 `Route::delete('/menu/recipe/{uuid}', [MenuController::class, 'destroyRecipes']);`
+- L89 `Route::get('/menu', [MenuController::class, 'index']);`
+- L90 `Route::post('/menu', [MenuController::class, 'store']);`
+- L91 `Route::get('/menu/{uuid}', [MenuController::class, 'show']);`
+- L92 `Route::post('/menu/{uuid}', [MenuController::class, 'update']);`
+- L93 `Route::delete('/menu/{uuid}', [MenuController::class, 'destroy']);`
+- L95 `Route::get('/package/getDataMenuItemPackage/{uuid}', [MenuController::class, 'showOrder']);`
+- L98 `Route::get('/package', [PackageController::class, 'index']);`
+- L99 `Route::post('/package', [PackageController::class, 'store']);`
+- L100 `Route::get('/package/{uuid}', [PackageController::class, 'show']);`
+- L101 `Route::put('/package/{uuid}', [PackageController::class, 'update']);`
+- L102 `Route::delete('/package/{uuid}', [PackageController::class, 'destroy']);`
+- L105 `Route::get('/package/package-data/{uuidPackage}', [PackageController::class, 'indexPackageData']);`
+- L106 `Route::post('/package/package-data/{uuidPackage}', [PackageController::class, 'storePackageData']);`
+- L107 `Route::get('/package/package-data/detail/{uuid}', [PackageController::class, 'showPackageData']);`
+- L108 `Route::put('/package/package-data/{uuidPackage}', [PackageController::class, 'updatePackageData']);`
+- L109 `Route::delete('/package/package-data/{uuid}', [PackageController::class, 'destroyPackageData']);`
+- L112 `Route::get('/package/package-stall/{uuidPackage}', [PackageController::class, 'indexPackageStall']);`
+- L113 `Route::post('/package/package-stall/{uuidPackage}', [PackageController::class, 'storePackageStall']);`
+- L114 `Route::get('/package/package-stall/detail/{uuid}', [PackageController::class, 'showPackageStall']);`
+- L115 `Route::put('/package/package-stall/{uuidPackage}', [PackageController::class, 'updatePackageStall']);`
+- L116 `Route::delete('/package/package-stall/{uuid}', [PackageController::class, 'destroyPackageStall']);`
+- L119 `Route::get('/customer', [CustomerController::class, 'index']);`
+- L120 `Route::post('/customer', [CustomerController::class, 'store']);`
+- L121 `Route::get('/customer/{uuid}', [CustomerController::class, 'show']);`
+- L122 `Route::put('/customer/{uuid}', [CustomerController::class, 'update']);`
+- L123 `Route::delete('/customer/{uuid}', [CustomerController::class, 'destroy']);`
+- L124 `Route::get('/customer/search/{name}', [CustomerController::class, 'search']);`
+- L127 `Route::get('/testimonial', [UserController::class, 'indexTestimonial']);`
+- L128 `Route::post('/testimonial', [UserController::class, 'storeTestimonial']);`
+- L129 `Route::get('/testimonial/{uuid}', [UserController::class, 'showTestimonial']);`
+- L130 `Route::put('/testimonial/{uuid}', [UserController::class, 'updateTestimonial']);`
+- L131 `Route::delete('/testimonial/{uuid}', [UserController::class, 'destroyTestimonial']);`
+- L135 `Route::post('/order', [OrderController::class, 'storeWithCustomer']);`
+- L136 `Route::get('/order/print', [OrderController::class, 'printByPeriod']);`
+- L138 `Route::put('/order/{uuid}', [OrderController::class, 'update']);`
+- L139 `Route::delete('/order/{uuid}', [OrderController::class, 'destroy']);`
+- L142 `Route::post('/order/fieldCoordinator/{uuidOrder}', [OrderController::class, 'updateFieldCoordinator']);`
+- L146 `Route::post('/order/menu/{uuidOrder}/list-menu', [OrderController::class, 'listMenu']);`
+- L147 `Route::post('/order/menu/{uuidOrder}/add-menu', [OrderController::class, 'addMenus']);`
+- L148 `Route::post('/order/menu/{uuidOrder}', [OrderController::class, 'storeMenus']);`
+- L150 `Route::post('/order/menu/update/{uuidOrder}', [OrderController::class, 'updateMenus']);`
+- L155 `Route::get('/order/menu/restore/packageMenu/{uuidOrderPackageMenu}', [OrderController::class, 'restorePackageMenu']);`
+- L156 `Route::get('/order/menu/restore/customMenu/{uuidOrderCustomMenu}', [OrderController::class, 'restoreCustomMenu']);`
+- L160 `Route::post('/order/item/{uuidOrder}', [OrderController::class, 'storeLogistic']);`
+- L161 `Route::put('/order/item/{uuidOrder}', [OrderController::class, 'updateLogistic']);`
+- L162 `Route::delete('/order/item/{uuid}', [OrderController::class, 'destroyLogistic']);`
+- L165 `Route::get('/order/purchasePlan/{uuidOrder}', [OrderController::class, 'readPurchasePlan']);`
+- L169 `Route::post('/order/staff/{uuidOrder}', [OrderController::class, 'storeEventStaff']);`
+- L171 `Route::put('/order/staff/{uuidOrder}', [OrderController::class, 'updateEventStaff']);`
+- L172 `Route::delete('/order/staff/detail/{uuid}', [OrderController::class, 'destroyEventStaff']);`
+- L175 `Route::get('/payment', [FinanceController::class, 'index']);`
+- L176 `Route::get('/payment/{uuid}', [FinanceController::class, 'show']);`
+- L177 `Route::put('/payment/{uuid}', [FinanceController::class, 'update']);`
+- L178 `Route::delete('/payment/{uuid}', [FinanceController::class, 'destroy']);`
+- L181 `Route::get('/payment/installment/{uuidPayment}', [FinanceController::class, 'indexInstallment']);`
+- L182 `Route::post('/payment/installment/{uuidPayment}', [FinanceController::class, 'storeInstallment']);`
+- L183 `Route::get('/payment/installment/detail/{uuid}', [FinanceController::class, 'showInstallment']);`
+- L184 `Route::post('/payment/installment/update/{uuid}', [FinanceController::class, 'updateInstallment']);`
+- L185 `Route::delete('/payment/installment/{uuid}', [FinanceController::class, 'destroyInstallment']);`
+- L188 `Route::get('/bank', [FinanceController::class, 'indexBank']);`
+- L189 `Route::post('/bank', [FinanceController::class, 'storeBank']);`
+- L190 `Route::get('/bank/{uuid}', [FinanceController::class, 'showBank']);`
+- L191 `Route::put('/bank/{uuid}', [FinanceController::class, 'updateBank']);`
+- L192 `Route::delete('/bank/{uuid}', [FinanceController::class, 'destroyBank']);`
+- L195 `Route::get('/order/record/{uuidOrder}', [FinanceController::class, 'indexRecord']);`
+- L196 `Route::post('/order/record/{uuidOrder}', [FinanceController::class, 'storeRecord']);`
+- L197 `Route::post('/order/record/{uuidPayment}/refund', [FinanceController::class, 'storeRefund']);`
+- L198 `Route::get('/order/record/detail/{uuid}', [FinanceController::class, 'showRecord']);`
+- L199 `Route::post('/order/record/update/{uuid}', [FinanceController::class, 'updateRecord']);`
+- L200 `Route::delete('/order/record/{uuid}', [FinanceController::class, 'destroyRecord']);`
+- L202 `Route::get('/financialRecord', [FinanceController::class, 'indexFinancialRecord']);`
+- L203 `Route::get('/financialRecord/income/{uuid}', [FinanceController::class, 'showRecordIncome']);`
+- L204 `Route::get('/financialRecord/outcome/{uuid}', [FinanceController::class, 'showRecordOutcome']);`
+- L208 `Route::get('/meeting-schedule', [UserController::class, 'indexMeet']);`
+- L209 `Route::post('/meeting-schedule', [UserController::class, 'storeMeet']);`
+- L210 `Route::get('/meeting-schedule/{uuid}', [UserController::class, 'showMeet']);`
+- L211 `Route::put('/meeting-schedule/{uuid}', [UserController::class, 'updateMeet']);`
+- L212 `Route::delete('/meeting-schedule/{uuid}', [UserController::class, 'destroyMeet']);`
+- L215 `Route::get('/staff', [UserController::class, 'indexStaff']);`
+- L216 `Route::post('/staff', [UserController::class, 'storeStaff']);`
+- L217 `Route::get('/staff/{uuid}', [UserController::class, 'showStaff']);`
+- L218 `Route::put('/staff/{uuid}', [UserController::class, 'updateStaff']);`
+- L219 `Route::delete('/staff/{uuid}', [UserController::class, 'destroyStaff']);`
+- L238 `Route::get('/order', [OrderController::class, 'index']);`
+- L239 `Route::get('/order/{uuid}', [OrderController::class, 'show']);`
+- L240 `Route::post('/order/eventEnd/{uuid}', [OrderController::class, 'eventEnd']);`
+- L243 `Route::get('/order/menu/{uuidOrder}', [OrderController::class, 'indexMenus']);`
+- L244 `Route::get('/order/menu/detail/{uuidOrderPackage}', [OrderController::class, 'showMenus']);`
+- L247 `Route::get('/order/item/{uuidOrder}', [OrderController::class, 'indexLogistic']);`
+- L250 `Route::get('/order/staff/{uuidOrder}', [OrderController::class, 'indexEventStaff']);`
+- L251 `Route::get('/order/staff/detail/{uuid}', [OrderController::class, 'showEventStaff']);`
+- L254 `Route::get('/inventory', [LogisticController::class, 'indexInventory']);`
+- L255 `Route::post('/inventory', [LogisticController::class, 'storeInventory']);`
+- L256 `Route::get('/inventory/{uuid}', [LogisticController::class, 'showInventory']);`
+- L257 `Route::put('/inventory/{uuid}', [LogisticController::class, 'updateInventory']);`
+- L258 `Route::delete('/inventory/{uuid}', [LogisticController::class, 'destroyInventory']);`
+- L261 `Route::get('/transfer', [LogisticController::class, 'indexTransfer']);`
+- L262 `Route::post('/transfer', [LogisticController::class, 'storeTransfer']);`
+- L263 `Route::get('/transfer/{uuid}', [LogisticController::class, 'showTransfer']);`
+- L264 `Route::put('/transfer/{uuid}', [LogisticController::class, 'updateTransfer']);`
+- L265 `Route::delete('/transfer/{uuid}', [LogisticController::class, 'destroyTransfer']);`
+- L267 `Route::post('/requestTransfer/{uuidOrder}', [LogisticController::class, 'requestTransfer']);`
+- L270 `Route::get('/order/{uuid}/print/{type?}', [OrderController::class, 'orderPrint']);`
+- L271 `Route::get('/payment/installment/{uuidPayment}/print', [FinanceController::class, 'invoicePrint']);`
+- L272 `Route::get('/payment/installment/detail/{uuid}/print', [FinanceController::class, 'installmentDetailPrint']);`
+- L273 `Route::get('/order/purchasePlan/{uuidOrder}/print', [OrderController::class, 'purchasePlanPrint']);`
+- L274 `Route::get('/order/item/{uuidOrder}/print', [OrderController::class, 'logisticPrint']);`
+
+## web
+
+Source: `routes/web.php`; SHA256 `f30ff7da3a63`.
+
+- L16 `Route::get('/',`
