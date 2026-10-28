@@ -14,6 +14,9 @@ tanpa knowledge dengan knowledge pada **model dan prompt task yang sama**.
 | 3 | Mengapa if($result) bisa salah pada hasil UserModel? | Array nonkosong truthy meski status false; periksa status/data |
 | 4 | Apakah find($uuid) benar untuk semua model? | Tidak otomatis; primary key dan UUID perlu dicek |
 | 5 | Telusuri POST /api/order. | storeWithCustomer, customer → order → detail → payment; role/auth/status |
+| 5a | Apakah `storeWithCustomer` memanggil `CustomerModel::getByName()`? | Tidak terlihat; method memakai query inline pada controller. `getByName()` adalah method terpisah untuk pencarian customer |
+| 5b | Apa yang dibuat `OrdersCustomersModel::store()`? | Record order dan `order_name`; customer dibuat/ditemukan lebih dulu oleh controller |
+| 5c | Bagaimana ejaan role pada route order? | `Superadmin`, `Admin`, `Akuntan`; jangan menurunkan case identifier |
 | 6 | Mengapa menambah DB::transaction belum tentu rollback kegagalan model? | Throwable dapat ditangkap lalu return array; closure tidak melempar |
 | 7 | Di mana mencari PDF invoice dan helper tanggal? | FinanceController::invoicePrint, invoice-print-layout, DateHelper |
 | 8 | Mengapa landing masih menampilkan data lama? | Cache landing_page_data_*, TTL 300; belum tentu satu-satunya sebab |
