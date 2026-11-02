@@ -146,6 +146,76 @@ jangan menganggap pemasangannya menghubungkan KB Open WebUI atau otomatis
 menjadikan konteks proyek ini tersedia. Command konfigurasi Hermes bergantung
 versi terpasang; cek bantuan versi VM sebelum mengubah runtime.
 
+## 5a. Ollama langsung dengan agent baca-saja
+
+Preset Open WebUI tidak menjadi model Ollama baru. Preset adalah wrapper di atas
+base model yang menyimpan system prompt, knowledge, tools, dan parameter;
+Knowledge Base tidak ditanam ke bobot model. Di luar Open WebUI, gunakan model
+dasar Ollama dan ulangi kemampuan tersebut pada client agent:
+
+- prompt maintenance dimuat dari `prompts/maintenance.txt`;
+- tools filesystem dijalankan oleh program agent, bukan oleh model langsung.
+
+Paket ini menyediakan agent minimal tanpa dependency Python:
+
+```bash
+python3 laravel_rag_pack/project/tools/ollama_project_agent.py \
+  --model andika-maintenance \
+  'Telusuri alur POST /api/order. Baca route, controller, model, dan migration terkait. Sebutkan path dan nomor baris.'
+```
+
+Agent menyediakan `list_project_files`, `search_project`, dan
+`read_project_file`. Ia menolak `.env`, `.git`, `vendor`, `node_modules`,
+`storage`, dump, dan path di luar repository. Agent tidak dapat menulis file,
+menjalankan shell, migrasi, test, atau deployment.
+
+Ollama mendukung tool calling melalui `/api/chat`: client mengirim schema tools,
+model mengembalikan `tool_calls`, client menjalankan fungsi, lalu mengirim hasil
+sebagai message `tool` pada putaran berikutnya. [Dokumentasi Ollama tool
+calling](https://docs.ollama.com/capabilities/tool-calling).
+
+DeepSeek-R1 14B dapat mengeluarkan tool call yang tidak konsisten. Jika agent
+tidak memanggil tool, gunakan agent model yang lebih kuat atau jalankan pencarian
+manual dan tempel hasilnya. Jangan memberi model akses shell umum hanya untuk
+mengatasi kegagalan tool call.
+
+Untuk menyalin preset Open WebUI secara manual, ambil base model dan salin hanya
+prompt yang sudah direview ke `Modelfile` atau client. Knowledge tetap dijalankan
+oleh retrieval lokal (`knowledge.py`) atau agent filesystem; tidak ada export
+Ollama yang otomatis membawa Knowledge Base preset.
+
+### Hermes MCP tanpa Node atau npx
+
+Jika VM tidak memiliki Node.js, gunakan server MCP Python di
+`tools/andika_files_mcp.py`. Buat virtual environment dan pasang MCP Python SDK:
+
+```bash
+python3 -m venv .venv-hermes-mcp
+. .venv-hermes-mcp/bin/activate
+python -m pip install mcp
+python -m py_compile laravel_rag_pack/project/tools/andika_files_mcp.py
+```
+
+Tambahkan server ini ke `~/.hermes/config.yaml` dengan path absolut VM:
+
+```yaml
+mcp_servers:
+  andika_files:
+    command: "/ABSOLUT/PATH/andikacatering-api-main/.venv-hermes-mcp/bin/python"
+    args:
+      - "/ABSOLUT/PATH/andikacatering-api-main/laravel_rag_pack/project/tools/andika_files_mcp.py"
+    tools:
+      include:
+        - list_project_files
+        - search_project
+        - read_project_file
+```
+
+Server ini hanya membaca file teks dalam root project, membatasi rentang baris,
+dan memblokir `.env`, `.git`, `vendor`, `node_modules`, `storage`, serta dump.
+Ia tidak memiliki tool tulis atau eksekusi shell. Setelah konfigurasi, mulai
+session Hermes baru atau jalankan `/reload-mcp`.
+
 ## 6. Jika 14B tetap lambat atau sering salah
 
 Pertahankan 14B sebagai baseline, lalu jika diperlukan bandingkan varian lebih
